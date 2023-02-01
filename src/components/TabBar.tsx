@@ -3,6 +3,7 @@ import { Text, View, TouchableOpacity, Animated } from 'react-native';
 import * as Haptics from 'expo-haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
+import { onPressIn, onPressOut } from '../utils/animations';
 
 const TabBar = ({ state, navigation }: BottomTabBarProps) => {
   return (
@@ -33,21 +34,6 @@ const TabBar = ({ state, navigation }: BottomTabBarProps) => {
         const iconName = icons[route.name] || 'person';
 
         const animatedValue = new Animated.Value(1);
-
-        const onPressIn = () => {
-          Animated.spring(animatedValue, {
-            toValue: 0.9,
-            useNativeDriver: true,
-          }).start();
-        };
-
-        const onPressOut = () => {
-          Animated.spring(animatedValue, {
-            toValue: 1,
-            useNativeDriver: true,
-          }).start();
-        };
-
         const animatedStyle = { transform: [{ scale: animatedValue }] };
 
         return (
@@ -56,7 +42,11 @@ const TabBar = ({ state, navigation }: BottomTabBarProps) => {
             key={route.name}
             style={animatedStyle}
           >
-            <TouchableOpacity onPress={onPress} onPressIn={onPressIn} onPressOut={onPressOut}>
+            <TouchableOpacity
+              onPress={onPress}
+              onPressIn={() => onPressIn(animatedValue)}
+              onPressOut={() => onPressOut(animatedValue)}
+            >
               {isActions ? (
                 <View className='h-10 w-10 items-center justify-center self-center rounded-full bg-blue-600'>
                   <Ionicons name='swap-horizontal' size={20} color='white' />

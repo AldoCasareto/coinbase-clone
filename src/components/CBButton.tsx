@@ -1,6 +1,7 @@
 import { View, Text, TouchableHighlight, Animated } from 'react-native';
 import React from 'react';
 import * as Haptics from 'expo-haptics';
+import { onPressIn, onPressOut } from '../utils/animations';
 
 type CBButtonProps = {
   title: string;
@@ -8,20 +9,6 @@ type CBButtonProps = {
 
 const CBButton = ({ title }: CBButtonProps) => {
   const animatedValue = new Animated.Value(1);
-
-  const onPressIn = () => {
-    Animated.spring(animatedValue, {
-      toValue: 0.9,
-      useNativeDriver: true,
-    }).start();
-  };
-
-  const onPressOut = () =>
-    Animated.spring(animatedValue, {
-      toValue: 1,
-      useNativeDriver: true,
-    }).start();
-
   const animatedStyle = {
     transform: [{ scale: animatedValue }],
   };
@@ -30,8 +17,8 @@ const CBButton = ({ title }: CBButtonProps) => {
     <Animated.View style={animatedStyle} className='w-10/12 rounded-xl bg-[#0053f8]'>
       <TouchableHighlight
         className='rounded-xl'
-        onPressIn={onPressIn}
-        onPressOut={onPressOut}
+        onPressIn={() => onPressIn(animatedValue)}
+        onPressOut={() => onPressOut(animatedValue)}
         onPress={() => {
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
         }}
