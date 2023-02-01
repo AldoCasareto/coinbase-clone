@@ -20,8 +20,8 @@ const TabBar = ({ state, navigation }: BottomTabBarProps) => {
           });
           if (!focused && !event.defaultPrevented) {
             navigation.navigate(route.name);
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
           }
-          if (isActions) Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
         };
 
         const icons: { [key: string]: string } = {
