@@ -1,3 +1,3 @@
 declare module '@env' {
-  export const API_COINBASE: string;
+  export const REACT_APP_API_COINBASE: string;
 }
