@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_COINBASE } from '@env';
+import { REACT_APP_API_COINBASE } from '@env';
 
 const realApi = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest';
 const dummyData = 'https://sandbox-api.coinmarketcap.com/v1/cryptocurrency/listings/latest';
@@ -9,7 +9,7 @@ export const getCoinData = async () => {
   try {
     response = await axios.get(realApi, {
       headers: {
-        'X-CMC_PRO_API_KEY': API_COINBASE,
+        'X-CMC_PRO_API_KEY': REACT_APP_API_COINBASE,
       },
     });
     const { data } = response;
