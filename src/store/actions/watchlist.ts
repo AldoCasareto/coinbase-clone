@@ -37,16 +37,18 @@ export const fetchCoinData = (): ThunkAction<
         const coinID = cmpDetails?.id ?? 0;
         const coinName = cmpDetails?.name ?? 'N/A';
 
-        coinData.push(
-          new Coin(
-            coinID,
-            coinName,
-            coinDetail.FROMSYMBOL,
-            coinDetail.CHANGEPCT24HOUR,
-            coinDetail.PRICE
-          )
-        );
+        const coin = {
+          id: coinID,
+          name: coinName,
+          symbol: coinDetail.FROMSYMBOL,
+          price: coinDetail.CHANGEPCT24HOUR,
+          percentChange: coinDetail.PRICE,
+        };
+
+        coinData.push(coin);
       }
+
+      console.log(`foo = `, coinData);
 
       dispatch({ type: SET_WATCHLIST_DATA, payload: coinData });
     } catch (error) {
