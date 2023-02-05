@@ -48,8 +48,6 @@ export const fetchCoinData = (): ThunkAction<
         coinData.push(coin);
       }
 
-      console.log(`foo = `, coinData);
-
       dispatch({ type: SET_WATCHLIST_DATA, payload: coinData });
     } catch (error) {
       console.log(error);
@@ -61,7 +59,7 @@ export const updatedCoinData = (newData: Coin[]) => {
   return async (dispatch: ThunkDispatch<WatchlistState, void, Action>) => {
     dispatch({
       type: SET_WATCHLIST_DATA,
-      coinData: newData,
+      payload: newData,
     });
   };
 };
