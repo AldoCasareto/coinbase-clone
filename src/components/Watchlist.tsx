@@ -6,14 +6,14 @@ import DraggableFlatList, { RenderItemParams } from 'react-native-draggable-flat
 import Coin from '../../models/Coin';
 import WatchlistItem from './WatchlistItem';
 import * as Haptics from 'expo-haptics';
-import * as watchlistActions from '../store/actions/watchlist';
+import { updateCoinData } from '../store/features/watchlistSlice';
 
 type CoinDataProps = {
   coinData: Coin[];
 };
 
 const Watchlist = ({ coinData }: CoinDataProps) => {
-  const dispatch = useDispatch<any>();
+  const dispatch = useDispatch<AppDispatch>();
   const renderItem = useCallback(({ item, drag, isActive }: RenderItemParams<Coin>) => {
     return (
       <WatchlistItem
@@ -32,14 +32,14 @@ const Watchlist = ({ coinData }: CoinDataProps) => {
     <View>
       <Text>Watchlist</Text>
       <View>
-        {/* <DraggableFlatList
+        <DraggableFlatList
           data={coinData}
           keyExtractor={(item) => item.id.toString()}
           scrollEnabled={false}
           onDragBegin={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}
-          onDragEnd={({ data }) => dispatch(watchlistActions.updatedCoinData(data))}
+          onDragEnd={({ data }) => dispatch(updateCoinData(data))}
           renderItem={renderItem}
-        /> */}
+        />
       </View>
     </View>
   );

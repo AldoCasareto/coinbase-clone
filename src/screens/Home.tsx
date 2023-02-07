@@ -2,22 +2,21 @@ import { View, Text, SafeAreaView, ScrollView, Image } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import CBButton from '../components/CBButton';
 import { useSelector, useDispatch } from 'react-redux';
-import { WatchlistState } from '../store/reducers/watchlist';
-import * as watchlistActions from '../store/actions/watchlist';
 import { AppDispatch } from '../../App';
 import Watchlist from '../components/Watchlist';
-
-type RootState = {
-  watchlist: WatchlistState;
-};
+import { fetchCoinData, WatchlistState } from '../store/features/watchlistSlice';
+import { RootState } from '../store/store';
 
 const Home = () => {
-  const watchlistData = useSelector((state: RootState) => state.watchlist.watchListData);
+  const watchlist = useSelector((state: RootState) => state.watchlist);
   const dispatch = useDispatch<AppDispatch>();
 
-  const loadData = () => {
+  console.log('data', watchlist.watchListData);
+  console.log('loading', watchlist.isLoading);
+
+  const loadData = async () => {
     try {
-      dispatch(watchlistActions.fetchCoinData());
+      await dispatch(fetchCoinData());
     } catch (error) {
       console.log(error);
     }
@@ -37,7 +36,11 @@ const Home = () => {
         <Text className='text-xl font-semibold'>Welcome to CoinBase</Text>
         <Text className='mb-6 text-lg font-semibold text-gray-500'>Make your investment today</Text>
         <CBButton title='Get Started' />
-        <Watchlist coinData={watchlistData} />
+        {watchlist.isLoading ? (
+          <Text>Loading...</Text>
+        ) : (
+          <Watchlist coinData={watchlist.watchListData} />
+        )}
       </ScrollView>
     </SafeAreaView>
   );
