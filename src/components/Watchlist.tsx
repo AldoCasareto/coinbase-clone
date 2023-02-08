@@ -29,8 +29,8 @@ const Watchlist = ({ coinData }: CoinDataProps) => {
   }, []);
 
   return (
-    <View>
-      <Text>Watchlist</Text>
+    <View className='mb-3 w-10/12'>
+      <Text className='mt-2 text-center text-xl font-bold'>Watchlist</Text>
       <View>
         <DraggableFlatList
           data={coinData}

@@ -1,7 +1,7 @@
 import { AsyncThunkAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import cmpData from '../../../data/marketData';
 import Coin from '../../../models/Coin';
-import { getCoinData } from '../../utils/fetchCoins';
 
 export type WatchlistState = {
   watchListData: Coin[];
@@ -18,31 +18,27 @@ export const fetchCoinData: any = createAsyncThunk(
   async (_, thunkAPI) => {
     const coins = ['BTC', 'ETH', 'XRP', 'DOGE', 'SHIB', 'MANA'];
     try {
-      const cryptoResponse = await axios.get(
-        `https://min-api.cryptocompare.com/data/pricemultifull?tsyms=USD&relaxedValidation=true&fsyms=${coins.join()}`
+      const coins = ['BTC', 'ETH', 'XRP', 'DOGE', 'SHIB', 'MANA'];
+      const responses = await Promise.all(
+        coins.map((coin) =>
+          axios.get(`https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${coin}&tsyms=USD`)
+        )
       );
-      const cryptoResponseData = await cryptoResponse.data;
 
       const coinData: Coin[] = [];
-
-      const coinsDetails = coins.map((coin) => cryptoResponseData.RAW[coin].USD);
-      for (const coinDetail of coinsDetails) {
-        const cmpDetails = (await getCoinData()).data.find(
-          (coindtl: Coin) => coindtl.symbol === coinDetail.FROMSYMBOL
-        );
-
+      for (const [index, response] of responses.entries()) {
+        const coinDetails = response.data.RAW[coins[index]].USD;
+        const cmpDetails = cmpData.data.find((cmp) => coinDetails.FROMSYMBOL === cmp.symbol);
         const coinID = cmpDetails?.id ?? 0;
         const coinName = cmpDetails?.name ?? 'N/A';
 
-        const coin = {
+        coinData.push({
           id: coinID,
           name: coinName,
-          symbol: coinDetail.FROMSYMBOL,
-          price: coinDetail.CHANGEPCT24HOUR,
-          percentChange: coinDetail.PRICE,
-        };
-
-        coinData.push(coin);
+          symbol: coinDetails.FROMSYMBOL,
+          price: coinDetails.PRICE,
+          percentChange: coinDetails.CHANGEPCT24HOUR,
+        });
       }
 
       return coinData;
@@ -61,17 +57,18 @@ const watchlistSlice = createSlice({
       state.watchListData = action.payload;
     },
   },
-  extraReducers: {
-    [fetchCoinData.pending]: (state: WatchlistState) => {
-      state.isLoading = false;
-    },
-    [fetchCoinData.fulfilled]: (state: WatchlistState, action) => {
+  extraReducers: (builder) => {
+    builder.addCase(fetchCoinData.pending, (state) => {
       state.isLoading = true;
-      state.watchListData = action.payload;
-    },
-    [fetchCoinData.rejected]: (state: WatchlistState) => {
-      state.isLoading = false;
-    },
+    }),
+      builder.addCase(fetchCoinData.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.watchListData = action.payload;
+      }),
+      builder.addCase(fetchCoinData.rejected, (state) => {
+        state.isLoading = false;
+        state.watchListData = [];
+      });
   },
 });
 

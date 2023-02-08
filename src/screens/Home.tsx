@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, ScrollView, Image } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import CBButton from '../components/CBButton';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch } from '../../App';
@@ -24,7 +24,7 @@ const Home = () => {
 
   useEffect(() => {
     loadData();
-  });
+  }, []);
 
   return (
     <SafeAreaView className='flex-1 items-center bg-white'>
@@ -36,11 +36,7 @@ const Home = () => {
         <Text className='text-xl font-semibold'>Welcome to CoinBase</Text>
         <Text className='mb-6 text-lg font-semibold text-gray-500'>Make your investment today</Text>
         <CBButton title='Get Started' />
-        {watchlist.isLoading ? (
-          <Text>Loading...</Text>
-        ) : (
-          <Watchlist coinData={watchlist.watchListData} />
-        )}
+        <Watchlist coinData={watchlist.watchListData} />
       </ScrollView>
     </SafeAreaView>
   );
