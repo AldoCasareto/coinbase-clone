@@ -1,7 +1,7 @@
 import { AsyncThunkAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import cmpData from '../../../data/marketData';
-import Coin from '../../../models/Coin';
+import cmpData from '../../../../data/marketData';
+import Coin from '../../../../models/Coin';
 
 export type WatchlistState = {
   watchListData: Coin[];
@@ -28,7 +28,7 @@ export const fetchCoinData: any = createAsyncThunk(
       const coinData: Coin[] = [];
       for (const [index, response] of responses.entries()) {
         const coinDetails = response.data.RAW[coins[index]].USD;
-        const cmpDetails = cmpData.data.find((cmp) => coinDetails.FROMSYMBOL === cmp.symbol);
+        const cmpDetails: any = cmpData.data.find((cmp) => coinDetails.FROMSYMBOL === cmp.symbol);
         const coinID = cmpDetails?.id ?? 0;
         const coinName = cmpDetails?.name ?? 'N/A';
 

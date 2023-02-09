@@ -4,19 +4,19 @@ import CBButton from '../components/CBButton';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch } from '../../App';
 import Watchlist from '../components/Watchlist';
-import { fetchCoinData, WatchlistState } from '../store/features/watchlistSlice';
+import { fetchCoinData, WatchlistState } from '../store/features/watchlist/watchlistSlice';
 import { RootState } from '../store/store';
+import { fetchTopMoversData } from '../store/features/topmovers/topmoversSlice';
 
 const Home = () => {
   const watchlist = useSelector((state: RootState) => state.watchlist);
+  const topMovers = useSelector((state: RootState) => state.topMovers);
   const dispatch = useDispatch<AppDispatch>();
-
-  console.log('data', watchlist.watchListData);
-  console.log('loading', watchlist.isLoading);
 
   const loadData = async () => {
     try {
       await dispatch(fetchCoinData());
+      await dispatch(fetchTopMoversData());
     } catch (error) {
       console.log(error);
     }
@@ -25,6 +25,8 @@ const Home = () => {
   useEffect(() => {
     loadData();
   }, []);
+
+  console.log(`topMovers = `, topMovers);
 
   return (
     <SafeAreaView className='flex-1 items-center bg-white'>

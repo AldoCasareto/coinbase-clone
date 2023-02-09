@@ -6,7 +6,7 @@ import DraggableFlatList, { RenderItemParams } from 'react-native-draggable-flat
 import Coin from '../../models/Coin';
 import WatchlistItem from './WatchlistItem';
 import * as Haptics from 'expo-haptics';
-import { updateCoinData } from '../store/features/watchlistSlice';
+import { updateCoinData } from '../store/features/watchlist/watchlistSlice';
 
 type CoinDataProps = {
   coinData: Coin[];
@@ -30,8 +30,8 @@ const Watchlist = ({ coinData }: CoinDataProps) => {
 
   return (
     <View className='mb-3 w-10/12'>
-      <Text className='mt-2 text-center text-xl font-bold'>Watchlist</Text>
-      <View>
+      <Text className='my-2 text-center text-xl font-bold'>Watchlist</Text>
+      <View className='w-full border-spacing-1 rounded-xl border border-gray-200 px-2'>
         <DraggableFlatList
           data={coinData}
           keyExtractor={(item) => item.id.toString()}

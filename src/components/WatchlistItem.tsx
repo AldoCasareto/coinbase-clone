@@ -29,32 +29,40 @@ const WatchlistItem = ({
       onLongPress={drag}
       onPress={() => console.log('drag')}
     >
-      <View className={`${isActive && activeStyle} w-full flex-row items-center justify-between`}>
-        <Image
-          className='h-8 w-8'
-          source={{
-            uri: `https://s2.coinmarketcap.com/static/img/coins/64x64/${id.toString()}.png`,
-          }}
-        />
-        <View className='w-3/12 flex-col'>
-          <Text>{name}</Text>
-          <Text>{symbol}</Text>
+      <View
+        className={`${
+          isActive && activeStyle
+        } w-full flex-row items-center justify-between space-y-3`}
+      >
+        <View className='flex-row items-center space-x-2'>
+          <Image
+            className='h-8 w-8'
+            source={{
+              uri: `https://s2.coinmarketcap.com/static/img/coins/64x64/${id.toString()}.png`,
+            }}
+          />
+          <View className='flex-col'>
+            <Text className='text-lg'>{name}</Text>
+            <Text className='text-lg'>{symbol}</Text>
+          </View>
         </View>
-        <Text className='w-4/12'>
-          USD$
-          {price.toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-            maximumSignificantDigits: 2,
-          })}
-        </Text>
-        <Text
-          className={`${
-            percentageChange > 0 ? 'text-green-400' : 'text-red-600'
-          } w-3/12 text-right`}
-        >
-          {percentageChange > 0 && '+'}
-          {percentageChange.toFixed(2)}%
-        </Text>
+        <View className='flex-col'>
+          <Text className='text-right text-lg'>
+            USD$
+            {price.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumSignificantDigits: 2,
+            })}
+          </Text>
+          <Text
+            className={`${
+              percentageChange > 0 ? 'text-green-400' : 'text-red-600'
+            } text-right text-lg`}
+          >
+            {percentageChange > 0 && '+'}
+            {percentageChange.toFixed(2)}%
+          </Text>
+        </View>
       </View>
     </TouchableHighlight>
   );
