@@ -7,6 +7,7 @@ import Watchlist from '../components/Watchlist';
 import { fetchCoinData, WatchlistState } from '../store/features/watchlist/watchlistSlice';
 import { RootState } from '../store/store';
 import { fetchTopMoversData } from '../store/features/topmovers/topmoversSlice';
+import TopMoversListItem from '../components/TopMoversListItem';
 
 const Home = () => {
   const watchlist = useSelector((state: RootState) => state.watchlist);
@@ -30,7 +31,7 @@ const Home = () => {
 
   return (
     <SafeAreaView className='flex-1 items-center bg-white'>
-      <ScrollView className='w-full' contentContainerStyle={{ alignItems: 'center' }}>
+      <ScrollView className='mb-3 w-full' contentContainerStyle={{ alignItems: 'center' }}>
         <Image
           className='mt-10 h-[250px] w-[150px]'
           source={{ uri: 'https://i.imgur.com/9EEaSaS.png' }}
@@ -39,6 +40,7 @@ const Home = () => {
         <Text className='mb-6 text-lg font-semibold text-gray-500'>Make your investment today</Text>
         <CBButton title='Get Started' />
         <Watchlist coinData={watchlist.watchListData} />
+        <TopMoversListItem id={1} symbol={'BTC'} price={54300} percentChange={-0.01} />
       </ScrollView>
     </SafeAreaView>
   );
