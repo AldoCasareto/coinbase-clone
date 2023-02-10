@@ -8,16 +8,20 @@ import { fetchCoinData, WatchlistState } from '../store/features/watchlist/watch
 import { RootState } from '../store/store';
 import { fetchTopMoversData } from '../store/features/topmovers/topmoversSlice';
 import TopMoversListItem from '../components/TopMoversListItem';
+import TopMoversList from '../components/TopMoversList';
+import { fetchNews } from '../store/features/news/newsSlice';
 
 const Home = () => {
   const watchlist = useSelector((state: RootState) => state.watchlist);
   const topMovers = useSelector((state: RootState) => state.topMovers);
+  const news = useSelector((state: RootState) => state.news);
   const dispatch = useDispatch<AppDispatch>();
 
   const loadData = async () => {
     try {
       await dispatch(fetchCoinData());
       await dispatch(fetchTopMoversData());
+      await dispatch(fetchNews());
     } catch (error) {
       console.log(error);
     }
@@ -27,7 +31,7 @@ const Home = () => {
     loadData();
   }, []);
 
-  console.log(`topMovers = `, topMovers);
+  console.log(`news = `, news);
 
   return (
     <SafeAreaView className='flex-1 items-center bg-white'>
@@ -40,7 +44,7 @@ const Home = () => {
         <Text className='mb-6 text-lg font-semibold text-gray-500'>Make your investment today</Text>
         <CBButton title='Get Started' />
         <Watchlist coinData={watchlist.watchListData} />
-        <TopMoversListItem id={1} symbol={'BTC'} price={54300} percentChange={-0.01} />
+        <TopMoversList topMoversData={topMovers.topMoversData} />
       </ScrollView>
     </SafeAreaView>
   );

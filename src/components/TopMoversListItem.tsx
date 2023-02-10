@@ -2,15 +2,9 @@ import { View, Text, TouchableHighlight, Image, Animated } from 'react-native';
 import React from 'react';
 import { onPressIn, onPressOut } from '../utils/animations';
 import * as Haptics from 'expo-haptics';
+import { MoversProps } from '../../typings';
 
-type TopMoversListsItemsProps = {
-  id: number;
-  symbol: string;
-  price: number;
-  percentChange: number;
-};
-
-const TopMoversListItem = ({ id, symbol, price, percentChange }: TopMoversListsItemsProps) => {
+const TopMoversListItem = ({ id, symbol, price, percentChange }: MoversProps) => {
   const animatedValue = new Animated.Value(1);
   const animatedStyle = {
     transform: [{ scale: animatedValue }],
@@ -24,20 +18,20 @@ const TopMoversListItem = ({ id, symbol, price, percentChange }: TopMoversListsI
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
       }}
       underlayColor='#FAFBFE'
-      className='rounded-lg border border-gray-200'
+      className='mx-1 rounded-lg border border-gray-200'
     >
       <Animated.View style={animatedStyle}>
-        <View className='flex-row items-center space-x-1 rounded-lg p-2'>
+        <View className='rounded-lg p-4'>
           <Image
             className='h-10 w-10'
             source={{
               uri: `https://s2.coinmarketcap.com/static/img/coins/64x64/${id.toString()}.png`,
             }}
           />
-          <View>
-            <View className='flex-row space-x-2'>
-              <Text className='text-lg font-bold'>{symbol}</Text>
-              <Text className='text-lg underline'>
+          <View className='mt-2'>
+            <View className='flex-row items-center space-x-1'>
+              <Text className='font-bold'>{symbol}</Text>
+              <Text className=''>
                 USD${' '}
                 {price.toLocaleString(undefined, {
                   minimumFractionDigits: 2,
@@ -48,7 +42,7 @@ const TopMoversListItem = ({ id, symbol, price, percentChange }: TopMoversListsI
             <Text
               className={`${
                 percentChange > 0 ? 'text-green-400' : 'text-red-600'
-              } text-right text-xl font-bold`}
+              } text-right text-2xl font-bold`}
             >
               {percentChange > 0 && '+'}
               {percentChange.toFixed(2)}%

@@ -1,4 +1,4 @@
-import { AsyncThunkAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import cmpData from '../../../../data/marketData';
 import Coin from '../../../../models/Coin';
