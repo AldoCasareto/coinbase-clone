@@ -43,7 +43,6 @@ const Home = ({ navigation }: Props) => {
     navigation.navigate('News');
   };
 
-  console.log(`news.newsData = `, news.newsData);
   return (
     <SafeAreaView className='flex-1 items-center bg-white'>
       <ScrollView className='mb-3 w-full' contentContainerStyle={{ alignItems: 'center' }}>

@@ -12,7 +12,6 @@ type NewslistItemsProps = {
 };
 
 const NewsItem = ({ newsOutlet, date, title, image, url }: NewslistItemsProps) => {
-  console.log(`image = `, image);
   const animatedValue = new Animated.Value(1);
   const animatedStyle = {
     transform: [{ scale: animatedValue }],
