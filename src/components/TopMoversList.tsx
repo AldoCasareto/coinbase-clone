@@ -1,7 +1,7 @@
 import { View, FlatList, Text } from 'react-native';
 import React from 'react';
 import { MoversProps } from '../../typings';
-import TopMoversListItem from './TopMoversListItem';
+import TopMoversItem from './TopMoversItem';
 
 type TopMoversData = {
   topMoversData: MoversProps[];
@@ -22,7 +22,7 @@ const TopMoversList = ({ topMoversData }: TopMoversData) => {
         contentContainerStyle={{ height: 160, marginTop: 12 }}
         renderItem={({ item }) => {
           return (
-            <TopMoversListItem
+            <TopMoversItem
               id={item.id}
               symbol={item.symbol}
               price={item.price}

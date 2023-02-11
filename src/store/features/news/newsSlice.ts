@@ -13,7 +13,7 @@ export const fetchNews = createAsyncThunk('news/fetchNews', async (_, thunkAPI) 
       data: { Data },
     } = await axios.get('https://min-api.cryptocompare.com/data/v2/news/?lang=EN');
 
-    const newsData: News[] = Data.map((news: News) => {
+    const newsData: News[] = Data.map((news: any) => {
       const formattedDate = new Date(news.published_on * 1000)
         .toString()
         .split(' ')

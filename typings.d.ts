@@ -6,10 +6,18 @@ export type MoversProps = {
 };
 
 export type News = {
-  source_info: { name: string };
+  newsOutlet: string;
   date: string;
   title: string;
-  imageurl: string;
+  imageUrl: string;
   published_on: number;
+  url: string;
+};
+
+type NewsArticle = {
+  date: string;
+  imageUrl: string;
+  newsOutlet: string;
+  title: string;
   url: string;
 };

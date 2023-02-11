@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Home from '../screens/Home';
+import HomeScreen, { screenOptions as HomeOptions } from '../screens/Home';
 import Actions from '../screens/Actions';
 import News from '../screens/News';
 import Portfolio from '../screens/Portfolio';
@@ -10,15 +10,19 @@ import Settings from '../screens/Settings';
 import { NavigationContainer } from '@react-navigation/native';
 import TabBar from '../components/TabBar';
 
+export type RootStackParamList = {
+  HomeScreen: undefined;
+  News: undefined;
+};
 const TabBarNavigator = createBottomTabNavigator();
 
-const HomeStackNavigator = createNativeStackNavigator();
+const HomeStackNavigator = createNativeStackNavigator<RootStackParamList>();
 
 const HomeNavigator = () => {
   return (
     <HomeStackNavigator.Navigator>
+      <HomeStackNavigator.Screen name='HomeScreen' component={HomeScreen} options={HomeOptions} />
       <HomeStackNavigator.Screen name='News' component={News} />
-      <HomeStackNavigator.Screen name='Home' component={Home} />
     </HomeStackNavigator.Navigator>
   );
 };
@@ -26,7 +30,7 @@ const HomeNavigator = () => {
 const TabNavigator = () => {
   return (
     <TabBarNavigator.Navigator tabBar={(props) => <TabBar {...props} />}>
-      <TabBarNavigator.Screen name='Home' component={Home} />
+      <TabBarNavigator.Screen name='Home' component={HomeNavigator} />
       <TabBarNavigator.Screen name='Portfolio' component={Portfolio} />
       <TabBarNavigator.Screen name='Actions' component={Actions} />
       <TabBarNavigator.Screen name='Prices' component={Prices} />

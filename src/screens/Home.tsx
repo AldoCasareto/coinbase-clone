@@ -7,11 +7,19 @@ import Watchlist from '../components/Watchlist';
 import { fetchCoinData, WatchlistState } from '../store/features/watchlist/watchlistSlice';
 import { RootState } from '../store/store';
 import { fetchTopMoversData } from '../store/features/topmovers/topmoversSlice';
-import TopMoversListItem from '../components/TopMoversListItem';
 import TopMoversList from '../components/TopMoversList';
 import { fetchNews } from '../store/features/news/newsSlice';
+import Newslist from '../components/Newslist';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../navigation/AppNavigator';
 
-const Home = () => {
+type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'HomeScreen'>;
+
+type Props = {
+  navigation: HomeScreenNavigationProp;
+};
+
+const Home = ({ navigation }: Props) => {
   const watchlist = useSelector((state: RootState) => state.watchlist);
   const topMovers = useSelector((state: RootState) => state.topMovers);
   const news = useSelector((state: RootState) => state.news);
@@ -31,8 +39,11 @@ const Home = () => {
     loadData();
   }, []);
 
-  console.log(`news = `, news);
+  const viewMoreHandler = () => {
+    navigation.navigate('News');
+  };
 
+  console.log(`news.newsData = `, news.newsData);
   return (
     <SafeAreaView className='flex-1 items-center bg-white'>
       <ScrollView className='mb-3 w-full' contentContainerStyle={{ alignItems: 'center' }}>
@@ -45,9 +56,16 @@ const Home = () => {
         <CBButton title='Get Started' />
         <Watchlist coinData={watchlist.watchListData} />
         <TopMoversList topMoversData={topMovers.topMoversData} />
+        <Newslist newsData={news.newsData} isHomeScreen={true} viewMoreHandler={viewMoreHandler} />
       </ScrollView>
     </SafeAreaView>
   );
 };
 
 export default Home;
+
+export const screenOptions = () => {
+  return {
+    headerShown: false,
+  };
+};
